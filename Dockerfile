@@ -1,6 +1,10 @@
 # FROM ruby:2.5-slim
 FROM public.ecr.aws/bitnami/ruby:2.5
 
+ENV http_proxy <http-proxy>
+ENV https_proxy <https-proxy>
+ENV no_proxy <no-proxy>
+
 COPY Gemfile Gemfile.lock /usr/src/app/
 WORKDIR /usr/src/app
 
@@ -23,4 +27,4 @@ RUN chmod +x /usr/src/app/startup-cdk.sh
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD curl -f -s http://localhost:3000/health/ || exit 1
 EXPOSE 3000
-ENTRYPOINT ["bash","/usr/src/app/startup-cdk.sh"]
+ENTRYPOINT ["bash","/usr/src/app/startup.sh"]
